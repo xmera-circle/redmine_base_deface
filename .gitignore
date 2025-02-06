@@ -13,3 +13,5 @@ tmp/
 .history
 tmp
 .ruby-lsp
+PluginGemfile
+Gemfile.lock

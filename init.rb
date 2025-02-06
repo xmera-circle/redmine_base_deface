@@ -4,7 +4,7 @@ Redmine::Plugin.register :redmine_base_deface do
   name 'Redmine Base Deface plugin'
   author 'Jean-Baptiste BARTH'
   description 'This is a plugin for Redmine'
-  version '1.8.2-xmr-1'
+  version '6.0.1'
   url 'https://github.com/jbbarth/redmine_base_deface'
   author_url 'jeanbaptiste.barth@gmail.com'
   # doesn't work since redmine evaluates dependencies as it loads, and loads in lexical order
@@ -21,6 +21,10 @@ if Rails.version > '6.0'
     # zeitwerk will ignore these path from beeing autoloaded
     Rails.autoloaders.main.ignore(path)
     load File.expand_path(path, __FILE__)
+  end
+
+  Dir.glob("#{Rails.root}/plugins/*/app/overrides/**/*.deface").each do |path|
+    Deface::DSL::Loader::load File.expand_path(path, __FILE__)
   end
 
   Rails.application.config.after_initialize do

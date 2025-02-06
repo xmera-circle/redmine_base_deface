@@ -1,4 +1,15 @@
-.history
+.buildpath
 .byebug_history
+.metadata/
+.project
+Gemfile.lock
+config/
+db/
+files/
+log/
+public/
+tmp/
+
+.history
 tmp
 .ruby-lsp

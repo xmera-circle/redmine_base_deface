@@ -4,7 +4,7 @@ Redmine::Plugin.register :redmine_base_deface do
   name 'Redmine Base Deface plugin'
   author 'Jean-Baptiste BARTH'
   description 'This is a plugin for Redmine'
-  version '6.0.1'
+  version '6.0.1+xmr.1'
   url 'https://github.com/jbbarth/redmine_base_deface'
   author_url 'jeanbaptiste.barth@gmail.com'
   # doesn't work since redmine evaluates dependencies as it loads, and loads in lexical order
@@ -13,12 +13,12 @@ Redmine::Plugin.register :redmine_base_deface do
 end
 
 if Rails::VERSION::MAJOR >= 7
-  Dir.glob("#{Rails.root.join('plugins/*/app/overrides/**/*.rb')}").each do |path|
+  Dir.glob(Rails.root.join('plugins/*/app/overrides/**/*.rb').to_s).each do |path|
     Rails.autoloaders.main.ignore(path)
     load File.expand_path(path, __FILE__)
   end
 
-  Dir.glob("#{Rails.root.join('plugins/*/app/overrides/**/*.deface')}").each do |path|
+  Dir.glob(Rails.root.join('plugins/*/app/overrides/**/*.deface').to_s).each do |path|
     Deface::DSL::Loader.load File.expand_path(path, __FILE__)
   end
 
@@ -26,15 +26,15 @@ if Rails::VERSION::MAJOR >= 7
     require_relative 'lib/applicator_patch'
   end
 elsif Rails::VERSION::MAJOR == 6
-  Dir.glob("#{Rails.root.join('plugins/*/app/overrides/**/*.rb')}").each do |path|
+  Dir.glob(Rails.root.join('plugins/*/app/overrides/**/*.rb').to_s).each do |path|
     Rails.autoloaders.main.ignore(path)
   end
 
   Rails.application.config.after_initialize do
-    Dir.glob("#{Rails.root.join('plugins/*/app/overrides/**/*.rb')}").each do |path|
+    Dir.glob(Rails.root.join('plugins/*/app/overrides/**/*.rb').to_s).each do |path|
       load File.expand_path(path, __FILE__)
     end
-    Dir.glob("#{Rails.root.join('plugins/*/app/overrides/**/*.deface')}").each do |path|
+    Dir.glob(Rails.root.join('plugins/*/app/overrides/**/*.deface').to_s).each do |path|
       Deface::DSL::Loader.load File.expand_path(path, __FILE__)
     end
     require_relative 'lib/applicator_patch'
@@ -45,7 +45,7 @@ else
   # - deface doesn't support direct loading anymore ; it unloads everything at boot so that reload in dev works
   # - hack consists in adding "app/overrides" path of all plugins in Redmine's main #paths
   Rails.application.paths['app/overrides'] ||= []
-  Dir.glob("#{Rails.root.join('plugins/*/app/overrides')}").each do |dir|
+  Dir.glob(Rails.root.join('plugins/*/app/overrides').to_s).each do |dir|
     Rails.application.paths['app/overrides'] << dir unless Rails.application.paths['app/overrides'].include?(dir)
   end
 

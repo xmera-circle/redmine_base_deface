@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 # Dummy Deface instance for testing actions / applicator
@@ -24,9 +26,10 @@ module Deface
                              name: 'Posts#index',
                              remove: 'p')
       end
-      let(:source) { "<%= javascript_tag do %>if (y > 0) {y = 0;}<% end %>" }
+      let(:source) { '<%= javascript_tag do %>if (y > 0) {y = 0;}<% end %>' }
       it 'should return unmodified source' do
-        expect(Dummy.apply(source, { virtual_path: 'posts/index' })).to eq("<%= javascript_tag do %>if (y > 0) {y = 0;}<% end %>")
+        expect(Dummy.apply(source, { virtual_path: 'posts/index' }))
+          .to eq('<%= javascript_tag do %>if (y > 0) {y = 0;}<% end %>')
       end
     end
   end

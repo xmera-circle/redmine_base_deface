@@ -4,7 +4,7 @@ Redmine::Plugin.register :redmine_base_deface do
   name 'Redmine Base Deface plugin'
   author 'Jean-Baptiste BARTH'
   description 'This is a plugin for Redmine'
-  version '6.1.3+xmr.1'
+  version '6.0.1'
   url 'https://github.com/jbbarth/redmine_base_deface'
   author_url 'jeanbaptiste.barth@gmail.com'
   # doesn't work since redmine evaluates dependencies as it loads, and loads in lexical order
@@ -12,7 +12,7 @@ Redmine::Plugin.register :redmine_base_deface do
   # requires_redmine_plugin :redmine_base_rspec, :version_or_higher => '0.0.3' if Rails.env.test?
 end
 
-require_relative "lib/redmine_base_deface/overrides_loader"
+require_relative 'lib/redmine_base_deface/overrides_loader'
 
 if Rails::VERSION::MAJOR >= 7
   RedmineBaseDeface::OverridesLoader.ignore_ruby_overrides
@@ -26,7 +26,7 @@ elsif Rails::VERSION::MAJOR == 6
 
   Rails.application.config.after_initialize do
     RedmineBaseDeface::OverridesLoader.load_all
-    require_relative "lib/applicator_patch"
+    require_relative 'lib/applicator_patch'
   end
 else
   # Little hack for deface in redmine:
